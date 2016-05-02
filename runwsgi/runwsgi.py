@@ -1,13 +1,23 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*
+'''
+@author: sintrb
+'''
+"""runwsgi
+
+"""
+__version__ = "0.0.1"
+
 import sys, os
 from wsgiref.simple_server import make_server
 
 def print_help():
-    print 'Usage: python -m runwsgi -b [host:port] model:applicaon'
+    print 'Usage: python -m runwsgi [-b host:port] [-p "params"] model:applicaon'
     print 'Report bugs to <sintrb@gmail.com>'
 
 def main():
     import getopt
-    opts, args = getopt.getopt(sys.argv[1:], "hb:")
+    opts, args = getopt.getopt(sys.argv[1:], "hb:p:")
     host = '0.0.0.0'
     port = 8080
     for opt, arg in opts:
@@ -17,6 +27,8 @@ def main():
                 port = int(port)
             else:
                 port = int(arg)
+        elif opt == '-p':
+            os.environ.setdefault('WSGI_PARAMS', arg)
         elif opt == '-h':
             print_help()
             exit()
